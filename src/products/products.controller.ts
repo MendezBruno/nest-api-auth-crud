@@ -10,6 +10,7 @@ import { RolesGuard } from '../users/roles/roles.guard';
 import { Product } from './interfaces/product.interface';
 import { Auth } from '../auth/auth.decorator';
 import { UserDto } from '../users/dto/user.dto';
+import { ProductModel } from './product.model';
 
 // @UseGuards(AuthGuard('jwt'))
 @Controller('product')
@@ -82,6 +83,7 @@ export class ProductsController {
     @Body() productDto: ProductDto,
     @Auth() userDto: UserDto,
   ): Promise<Response<Product>> {
+    // @ts-ignore
     const result = await this.productsService.updateProduct(productId, productDto, userDto).catch((err) => {
       return res.status(HttpStatus.FORBIDDEN).json({
         status: 403,

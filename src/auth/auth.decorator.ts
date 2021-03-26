@@ -3,8 +3,6 @@ import {
   ExecutionContext,
   ForbiddenException,
 } from '@nestjs/common';
-import { JwtPayload } from './jwt-payload.interface';
-import { Request, Response } from 'express';
 import { UserDto } from '../users/dto/user.dto';
 
 export const Auth = createParamDecorator(

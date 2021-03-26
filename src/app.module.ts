@@ -5,7 +5,7 @@ import { ConfigService } from './core/config/config.service';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import * as winston from 'winston';
-import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
+import { WinstonModule } from 'nest-winston';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -29,6 +29,7 @@ import { UsersModule } from './users/users.module';
 
 export class AppModule {
   static port: number | string;
+  // tslint:disable-next-line:variable-name
   constructor(private _configService: ConfigService) {
     AppModule.port = this._configService.get('PORT');
     console.log('AppModule.port', AppModule.port);

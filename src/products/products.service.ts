@@ -7,6 +7,7 @@ import { SendEmailMiddleware } from '../core/middleware/send-email.middleware';
 import { UsersService } from '../users/users.service';
 import { Product } from './interfaces/product.interface';
 import { UserDto } from '../users/dto/user.dto';
+import { ProductModel } from './product.model';
 
 @Injectable()
 export class ProductsService {
@@ -30,28 +31,30 @@ export class ProductsService {
   }
 
   async getProductById(productId: string): Promise<Product> {
+    const prod = await this.productModel.findById({ _id: productId });
     this.incrementHits(productId);
-    return await this.productModel.findById({ _id: productId });
+    return Promise.resolve(prod);
   }
 
-  async updateProduct(productId: string, product: Partial<ProductDto>, userDto: Partial<UserDto>): Promise<Product> {
+  async updateProduct(productId: string, product: ProductModel, userDto: Partial<UserDto>): Promise<Product> {
     const oldProd = await this.productModel.findByIdAndUpdate({ _id: productId }, product, { new: false });
     if ( oldProd.price !== product.price ) {
-      let users = await this.userService.findByRole('admin');
-      users = users.filter( ( e ) =>  e._id.toString() === userDto.id );
+      let users = await this.userService.findByRoleAdmin();
+      users = users.filter( ( e ) =>  e._id === userDto.id );
       users.forEach(aUser => this.sendEmailMiddleware.changePriceSendEmail(aUser, oldProd, product, userDto));
     }
     return oldProd;
   }
 
-  async deleteProduct(prodId: string): Promise<void> {
+  async deleteProduct(prodId: string): Promise<any> {
     return await this.productModel.deleteOne({ _id: prodId });
   }
 
-  private incrementHits(id) {
+  private incrementHits(id: string) {
     const query = { _id: id };
-    const update = { $inc: { hits: 1 } };
-    this.productModel.findOneAndUpdate( query, update, {new: true }, (err) => {
+    // prod.hits = prod.hits + 1;
+    // @ts-ignore
+    this.productModel.findOneAndUpdate( query, {$inc: { hits: 1} }, {new: true }, (err) => {
       if (err) {
         this.appLogger.error(' incrementHits ', err );
       }

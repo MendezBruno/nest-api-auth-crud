@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nest-modules/mailer';
 import { ConfigService } from '../config/config.service';
 import { Product } from '../../products/interfaces/product.interface';
-import { ProductDto } from '../../products/dto/product.dto';
 import { UserDto } from '../../users/dto/user.dto';
 import { AppLogger } from '../services/logger.service';
+import { ProductModel } from '../../products/product.model';
 
 @Injectable()
 export class SendEmailMiddleware {
@@ -43,7 +43,7 @@ export class SendEmailMiddleware {
         }
     }
 
-    changePriceSendEmail(userReceive: Partial<UserDto>, oldProduct: Product, newProduct: Partial<ProductDto>, userSend: Partial<UserDto>) {
+    changePriceSendEmail(userReceive: Partial<UserDto>, oldProduct: Product, newProduct: ProductModel, userSend: Partial<UserDto>) {
 
         const subjectObject = {
             subjectTitle: `${oldProduct.name} change price "API" `,

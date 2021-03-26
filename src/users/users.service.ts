@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserDto } from './dto/user.dto';
 import { User } from './interfaces/user.interface';
+import { Role } from './roles/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -12,18 +13,15 @@ export class UsersService {
         private readonly userModels: Model<User>,
       ) {}
 
-    onModuleInit() {
-        console.log(`The module has been initialized.`);
-      }
-
-    async deleteUser(id: string): Promise<void> {
+    async deleteUser(id: string): Promise<any> {
         return await this.userModels.deleteOne({ _id: id });
     }
     updateUser(id: string, user: UserDto): Promise<User> {
-        return this.userModels.findByIdAndUpdate({ _id: id }, user, { new: true });
+        const result = this.userModels.findByIdAndUpdate({ _id: id }, user, { new: true });
+        return Promise.resolve(result);
     }
 
-    async createUser(userDto: UserDto): Promise<User> {
+    async createUser(userDto: UserDto): Promise<any> {
         const newUser = new this.userModels(userDto);
         await newUser.save();
         return newUser.toObject({ versionKey: false });
@@ -36,7 +34,7 @@ export class UsersService {
         return await this.userModels.find();
     }
 
-    async findByRole(admin: string): Promise<User[]> {
-        return await this.userModels.find({roles: admin});
+    async findByRoleAdmin(): Promise<any[]> {
+        return await this.userModels.find({roles: Role.Admin});
     }
 }
