@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  backend:
+    image: backend
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
