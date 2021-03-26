@@ -10,9 +10,7 @@ import { RolesGuard } from '../users/roles/roles.guard';
 import { Product } from './interfaces/product.interface';
 import { Auth } from '../auth/auth.decorator';
 import { UserDto } from '../users/dto/user.dto';
-import { ProductModel } from './product.model';
 
-// @UseGuards(AuthGuard('jwt'))
 @Controller('product')
 @ApiTags('Product')
 export class ProductsController {
@@ -25,7 +23,7 @@ export class ProductsController {
   @ApiBearerAuth()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  async addProduct(@Res() res: Response ,@Body() productDto: ProductDto ): Promise<Response<Product>> {
+  async addProduct(@Res() res: Response , @Body() productDto: ProductDto ): Promise<Response<Product>> {
     const result = await this.productsService.addProduct(productDto).catch((err) => {
       return res.status(HttpStatus.FORBIDDEN).json({
         status: 403,
@@ -59,7 +57,7 @@ export class ProductsController {
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  async getProduct(@Res() res: Response ,@Param('id') productId: string ): Promise<Response<Product>>  {
+  async getProduct(@Res() res: Response , @Param('id') productId: string ): Promise<Response<Product>>  {
     const result = await this.productsService.getProductById(productId).catch((err) => {
       return res.status(HttpStatus.FORBIDDEN).json({
         status: 403,

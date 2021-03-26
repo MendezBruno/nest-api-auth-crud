@@ -4,7 +4,6 @@ import { ConfigModule } from './core/config/config.module';
 import { ConfigService } from './core/config/config.service';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
-import * as winston from 'winston';
 import { WinstonModule } from 'nest-winston';
 import { UsersModule } from './users/users.module';
 

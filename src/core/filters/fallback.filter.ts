@@ -13,7 +13,7 @@ export class FallbackExceptionFilter implements ExceptionFilter {
         return response.status(500).json({
             statusCode: 500,
             createdBy: 'FallbackExceptionFilter',
-            errorMessage: exception.message ? exception.message : 'Unexpected error ocurred',
+            errorMessage: exception.message ? exception.message : 'Unexpected error occurred',
              timestamp: new Date().toISOString(),
             path: request.url,
         });

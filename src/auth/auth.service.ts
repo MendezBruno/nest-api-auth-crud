@@ -9,7 +9,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './jwt-payload.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TokenVerifyEmail, User, } from '../users/interfaces/user.interface';
+import { TokenVerifyEmail, User } from '../users/interfaces/user.interface';
 import { v1 as uuidv1 } from 'uuid';
 import { SendEmailMiddleware } from '../core/middleware/send-email.middleware';
 import { Role } from 'src/users/roles/role.enum';
@@ -68,7 +68,7 @@ export class AuthService {
     }
 
     async findOneByEmail(email: string): Promise<User> {
-        return await this.userModel.findOne({ email: email });
+        return await this.userModel.findOne({ email });
     }
 
     async getAllUsers() {

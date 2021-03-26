@@ -24,13 +24,13 @@ export class AppLogger implements LoggerService {
            filename: './logs/info.log', level: 'info', format: winston.format.combine(
             winston.format.timestamp(),
           ),
-        })
-      ]
-    })
-  
+        }),
+      ],
+    });
+
   }
   error(message: string, trace: string) {
-    this.logger.error("error", `${new Date().toLocaleString()}` + message, trace);
+    this.logger.error('error', `${new Date().toLocaleString()}` + message, trace);
   }
 
   warn(message: string) {
@@ -38,7 +38,7 @@ export class AppLogger implements LoggerService {
   }
 
   log(message: string) {
-     this.logger.log('info',`${new Date().toLocaleString()}` +  message);
+     this.logger.log('info', `${new Date().toLocaleString()}` +  message);
   }
- 
+
 }
